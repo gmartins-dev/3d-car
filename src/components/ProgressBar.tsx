@@ -1,4 +1,6 @@
+
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { SmileIcon } from 'lucide-react';
 
 interface ProgressBarProps {
@@ -8,6 +10,7 @@ interface ProgressBarProps {
 }
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({ carIndex, totalPoints, duration }) => {
+  const { t } = useTranslation();
   const isFinished = carIndex >= totalPoints - 1;
   const elapsed = Math.round((carIndex / totalPoints) * duration);
   const remaining = Math.max(0, duration - elapsed);
@@ -25,9 +28,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ carIndex, totalPoints,
       </div>
       <span style={{ fontSize: 14, color: '#0ea5e9', fontWeight: 600 }}>
         {isFinished ? (
-          <span className="flex items-center gap-2"><strong>Chegou!</strong> <SmileIcon size={18} color="#0ea5e9" /></span>
+          <span className="flex items-center gap-2"><strong>{t('arrived')}</strong> <SmileIcon size={18} color="#0ea5e9" /></span>
         ) : (
-          <span>Tempo Restante: {`${min}:${sec.toString().padStart(2, '0')}`}</span>
+          <span>{t('remaining_time')}: {`${min}:${sec.toString().padStart(2, '0')}`}</span>
         )}
       </span>
     </div>

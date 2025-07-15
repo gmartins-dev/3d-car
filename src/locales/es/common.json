@@ -1,0 +1,18 @@
+{
+  "title": "Car Tracker",
+  "select_route": "Seleccione la ruta:",
+  "from": "De:",
+  "to": "A:",
+  "start": "Comenzar",
+  "on_the_way": "En camino",
+  "restart": "Reiniciar",
+  "arrived": "¡Llegó!",
+  "remaining_time": "Tiempo Restante",
+  "progress": "Progreso",
+  "details": "Detalles de la Ruta:",
+  "duration": "Duración",
+  "distance": "Distancia",
+  "stops": "Paradas",
+  "current_speed": "Velocidad actual",
+  "direction": "Dirección"
+}

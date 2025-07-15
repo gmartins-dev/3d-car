@@ -1,6 +1,9 @@
+
 import React from 'react';
 import { PlayIcon, RotateCcwIcon, CarIcon } from 'lucide-react';
 import { Button } from './ui/button';
+import { useTranslation } from 'react-i18next';
+
 
 interface ActionButtonProps {
   isAtEnd: boolean;
@@ -9,16 +12,17 @@ interface ActionButtonProps {
 }
 
 export const ActionButton: React.FC<ActionButtonProps> = ({ isAtEnd, isPlaying, onClick }) => {
+  const { t } = useTranslation();
   let actionLabel = '';
   let ActionIcon = PlayIcon;
   if (isAtEnd) {
-    actionLabel = 'Reiniciar';
+    actionLabel = t('restart');
     ActionIcon = RotateCcwIcon;
   } else if (isPlaying) {
-    actionLabel = 'A Caminho';
+    actionLabel = t('on_the_way');
     ActionIcon = CarIcon;
   } else {
-    actionLabel = 'Começar';
+    actionLabel = t('start');
     ActionIcon = PlayIcon;
   }
 
