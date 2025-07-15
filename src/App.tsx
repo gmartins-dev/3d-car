@@ -54,7 +54,7 @@ function App() {
       <Card className="w-full max-w-xl shadow-lg rounded-xl p-6 relative">
 
 <div className="flex items-center justify-between mb-4">
-  <h1 className="text-3xl font-bold tracking-tight text-left flex-1">{t('title')}</h1>
+  <h1 className="text-3xl font-bold tracking-tight text-left flex-1 text-slate-800">{t('title')}</h1>
   <div className="ml-4">
     <LanguageSwitcher />
   </div>

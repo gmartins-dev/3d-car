@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { GlobeIcon } from "lucide-react";
 import {
   Select,
   SelectTrigger,
@@ -22,7 +23,8 @@ export function LanguageSwitcher() {
       value={i18n.language}
       onValueChange={lng => i18n.changeLanguage(lng)}
     >
-      <SelectTrigger className="w-full min-w-[140px]">
+      <SelectTrigger className="w-full min-w-[140px] flex items-center gap-2">
+        <GlobeIcon className="size-4 text-muted-foreground mr-1" />
         <SelectValue placeholder="Idioma" />
       </SelectTrigger>
       <SelectContent className="w-full">

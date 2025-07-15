@@ -11,6 +11,7 @@ import {
   SelectLabel,
   SelectGroup
 } from './ui/select';
+import { MapPinIcon } from 'lucide-react';
 
 interface RouteSelectProps {
   routes: Route[];
@@ -29,7 +30,8 @@ export const RouteSelect: React.FC<RouteSelectProps> = ({ routes, selectedRoute,
           if (route) onChange(route);
         }}
       >
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full flex items-center gap-2">
+          <MapPinIcon className="size-4 text-muted-foreground mr-1" />
           <SelectValue placeholder={t('select_route')} />
         </SelectTrigger>
         <SelectContent className="w-full">
