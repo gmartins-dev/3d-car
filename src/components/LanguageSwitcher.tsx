@@ -1,14 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { GlobeIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-  SelectLabel,
-  SelectGroup
-} from "./ui/select";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const languages = [
   { code: "pt", label: "Português" },
@@ -18,23 +16,25 @@ const languages = [
 
 export function LanguageSwitcher() {
   const { i18n } = useTranslation();
+
   return (
-    <Select
-      value={i18n.language}
-      onValueChange={lng => i18n.changeLanguage(lng)}
-    >
-      <SelectTrigger className="w-full min-w-[140px] flex items-center gap-2">
-        <GlobeIcon className="size-4 text-muted-foreground mr-1" />
-        <SelectValue placeholder="Idioma" />
-      </SelectTrigger>
-      <SelectContent className="w-full">
-        <SelectGroup>
-          <SelectLabel>Idioma</SelectLabel>
-          {languages.map(lang => (
-            <SelectItem key={lang.code} value={lang.code}>{lang.label}</SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <GlobeIcon className="h-[1.2rem] w-[1.2rem]" />
+          <span className="sr-only">Alterar idioma</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {languages.map((lang) => (
+          <DropdownMenuItem
+            key={lang.code}
+            onClick={() => i18n.changeLanguage(lang.code)}
+          >
+            {lang.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
