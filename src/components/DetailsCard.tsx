@@ -13,7 +13,7 @@ export const DetailsCard: React.FC<DetailsCardProps> = ({ selectedRoute, carInde
   const { t } = useTranslation();
   return (
     <section className="details-card">
-      <h2 style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: 8 }}>{t('details')}</h2>
+      <h2 className="font-bold text-lg mb-2">{t('details')}</h2>
       <div><strong>{t('from')}</strong> {selectedRoute.startName}</div>
       <div><strong>{t('to')}</strong> {selectedRoute.endName}</div>
       <div><strong>{t('duration')}</strong> {selectedRoute.duration}s</div>

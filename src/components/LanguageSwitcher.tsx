@@ -1,4 +1,13 @@
 import { useTranslation } from "react-i18next";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+  SelectLabel,
+  SelectGroup
+} from "./ui/select";
 
 const languages = [
   { code: "pt", label: "Português" },
@@ -9,15 +18,21 @@ const languages = [
 export function LanguageSwitcher() {
   const { i18n } = useTranslation();
   return (
-    <select
-      className="border rounded px-2 py-1 mb-4"
+    <Select
       value={i18n.language}
-      onChange={e => i18n.changeLanguage(e.target.value)}
-      aria-label="Selecionar idioma"
+      onValueChange={lng => i18n.changeLanguage(lng)}
     >
-      {languages.map(lang => (
-        <option key={lang.code} value={lang.code}>{lang.label}</option>
-      ))}
-    </select>
+      <SelectTrigger className="w-full min-w-[140px]">
+        <SelectValue placeholder="Idioma" />
+      </SelectTrigger>
+      <SelectContent className="w-full">
+        <SelectGroup>
+          <SelectLabel>Idioma</SelectLabel>
+          {languages.map(lang => (
+            <SelectItem key={lang.code} value={lang.code}>{lang.label}</SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 }

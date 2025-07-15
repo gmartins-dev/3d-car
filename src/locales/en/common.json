@@ -8,6 +8,7 @@
   "restart": "Restart",
   "arrived": "Arrived!",
   "remaining_time": "Remaining Time",
+  "route": "Route",
   "progress": "Progress",
   "details": "Route Details:",
   "duration": "Duration",

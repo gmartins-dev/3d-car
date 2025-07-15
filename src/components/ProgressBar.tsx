@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { SmileIcon } from 'lucide-react';
@@ -20,17 +19,22 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ carIndex, totalPoints,
 
   return (
     <div className="flex items-center gap-2 mb-2">
-      <div className="progress-bar" style={{ flex: 1 }}>
+      <div className="progress-bar flex-1">
         <div
           className="progress-bar-inner"
           style={{ width: `${percent}%` }}
         />
       </div>
-      <span style={{ fontSize: 14, color: '#0ea5e9', fontWeight: 600 }}>
+      <span className="text-[14px] text-sky-500 font-semibold pb-3">
         {isFinished ? (
-          <span className="flex items-center gap-2"><strong>{t('arrived')}</strong> <SmileIcon size={18} color="#0ea5e9" /></span>
+          <span className="flex items-center gap-2">
+            <strong>{t('arrived')}</strong>
+            <SmileIcon size={18} color="#0ea5e9" />
+          </span>
         ) : (
-          <span>{t('remaining_time')}: {`${min}:${sec.toString().padStart(2, '0')}`}</span>
+          <span>
+            {t('remaining_time')}: {`${min}:${sec.toString().padStart(2, '0')}`}
+          </span>
         )}
       </span>
     </div>

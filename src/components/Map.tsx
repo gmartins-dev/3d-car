@@ -31,7 +31,7 @@ export function Map({ route, position, direction = 0 }: Props) {
     return null;
   };
   return (
-    <MapContainer center={route[0]} zoom={15} className="map-container" style={{ height: '50vh', width: '100%' }}>
+    <MapContainer center={route[0]} zoom={15} className="map-container h-[50vh] w-full">
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Polyline positions={route} pathOptions={{ color: 'blue', weight: 4 }} />
       <Marker position={position} icon={carIcon} />

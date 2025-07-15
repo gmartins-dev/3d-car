@@ -2,6 +2,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Route } from '../helpers/gpsData';
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+  SelectLabel,
+  SelectGroup
+} from './ui/select';
 
 interface RouteSelectProps {
   routes: Route[];
@@ -12,24 +21,29 @@ interface RouteSelectProps {
 export const RouteSelect: React.FC<RouteSelectProps> = ({ routes, selectedRoute, onChange }) => {
   const { t } = useTranslation();
   return (
-    <div className="mb-2">
-      <label htmlFor="route-select" className="font-semibold">{t('select_route')}</label>
-      <select
-        id="route-select"
+    <div className="mb-2 w-full">
+      <Select
         value={selectedRoute.name}
-        onChange={e => {
-          const route = routes.find((r: Route) => r.name === e.target.value);
+        onValueChange={val => {
+          const route = routes.find((r: Route) => r.name === val);
           if (route) onChange(route);
         }}
-        className="select-responsive p-2 border rounded mb-2"
       >
-        {routes.map((route: Route, idx: number) => (
-          <option key={route.name} value={route.name}>
-            {`${t('progress')} ${idx + 1}`}
-          </option>
-        ))}
-      </select>
-      <div className="text-sm text-gray-600 mb-2">
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder={t('select_route')} />
+        </SelectTrigger>
+        <SelectContent className="w-full">
+          <SelectGroup>
+            <SelectLabel>{t('select_route')}</SelectLabel>
+            {routes.map((route: Route, idx: number) => (
+              <SelectItem key={route.name} value={route.name}>
+                {`${t('route')} ${idx + 1}`}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <div className="text-sm text-gray-600 mb-2 mt-2">
         <strong>{t('from')}</strong> {selectedRoute.startName}<br />
         <strong>{t('to')}</strong> {selectedRoute.endName}
       </div>
