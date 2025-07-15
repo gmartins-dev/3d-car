@@ -45,7 +45,7 @@ export const RouteSelect: React.FC<RouteSelectProps> = ({ routes, selectedRoute,
           </SelectGroup>
         </SelectContent>
       </Select>
-      <div className="text-sm text-gray-600 mb-2 mt-2">
+      <div className="text-sm text-slate-900 dark:text-slate-50 mt-4 mb-[-12px]">
         <strong>{t('from')}</strong> {selectedRoute.startName}<br />
         <strong>{t('to')}</strong> {selectedRoute.endName}
       </div>

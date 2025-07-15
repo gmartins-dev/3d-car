@@ -24,7 +24,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ carIndex, totalPoints,
   const percent = ((carIndex + 1) / totalPoints) * 100;
 
   return (
-    <div className="flex items-center gap-2 mb-2">
+    <div className="flex items-center gap-2">
       <div className="progress-bar flex-1">
         <div
           className="progress-bar-inner"
