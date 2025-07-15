@@ -1,9 +1,10 @@
+
 import './App.css'
-// import { Button } from './components/ui/button'
 import { useState, useEffect } from 'react'
 import { Map } from './components/Map'
 import { getRoutes } from './helpers/gpsData'
 import type { Route } from './helpers/gpsData'
+import { Button } from './components/ui/button'
 
 const routes = getRoutes()
 
@@ -28,12 +29,25 @@ function App() {
     return () => clearTimeout(timer)
   }, [isPlaying, carIndex, selectedRoute])
 
-  const handleStart = () => setIsPlaying(true)
-  const handleStop = () => setIsPlaying(false)
-  const handleEnd = () => {
-    setIsPlaying(false)
-    setCarIndex(selectedRoute.points.length - 1)
-  }
+
+  // Dynamic action button logic
+  const isAtEnd = carIndex >= selectedRoute.points.length - 1;
+  const isAtStart = carIndex === 0;
+  const handleAction = () => {
+    if (isAtEnd) {
+      setCarIndex(0);
+      setIsPlaying(false);
+    } else if (isPlaying) {
+      setIsPlaying(false);
+    } else {
+      setIsPlaying(true);
+    }
+  };
+  let actionLabel = '';
+  if (isAtEnd) actionLabel = 'Reiniciar';
+  else if (isPlaying) actionLabel = 'Parar';
+  else if (isAtStart) actionLabel = 'Começar';
+  else actionLabel = 'Continuar';
 
 
 
@@ -71,21 +85,21 @@ function App() {
         position={selectedRoute.points[carIndex]}
         direction={selectedRoute.directions[carIndex]}
       />
-      <div className="controls">
-        <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={handleStart}>Começar</button>
-        <button className="px-4 py-2 bg-gray-400 text-white rounded" onClick={handleStop}>Parar</button>
-        <button className="px-4 py-2 bg-green-500 text-white rounded" onClick={handleEnd}>Final</button>
+      <div className="flex justify-center my-4">
+        <Button size="lg" className="w-full max-w-xs" onClick={handleAction} variant={isPlaying ? 'destructive' : 'default'}>
+          {actionLabel}
+        </Button>
       </div>
-      <div className="info-panel">
-        <strong>De:</strong> {selectedRoute.startName}<br />
-        <strong>Para:</strong> {selectedRoute.endName}<br />
-        <strong>Duração:</strong> {selectedRoute.duration}s<br />
-        <strong>Distância:</strong> {(selectedRoute.distance / 1000).toFixed(2)} km<br />
-        <strong>Paradas:</strong> {selectedRoute.stops}<br />
-        <strong>Velocidade atual:</strong> {selectedRoute.speeds[carIndex]?.toFixed(1)} km/h<br />
-        <strong>Direção:</strong> {selectedRoute.directions[carIndex]?.toFixed(1)}°<br />
-        <strong>Progresso:</strong> {carIndex + 1} / {selectedRoute.points.length}
-      </div>
+      <section className="details-card">
+        <div><strong>De:</strong> {selectedRoute.startName}</div>
+        <div><strong>Para:</strong> {selectedRoute.endName}</div>
+        <div><strong>Duração:</strong> {selectedRoute.duration}s</div>
+        <div><strong>Distância:</strong> {(selectedRoute.distance / 1000).toFixed(2)} km</div>
+        <div><strong>Paradas:</strong> {selectedRoute.stops}</div>
+        <div><strong>Velocidade atual:</strong> {selectedRoute.speeds[carIndex]?.toFixed(1)} km/h</div>
+        <div><strong>Direção:</strong> {selectedRoute.directions[carIndex]?.toFixed(1)}°</div>
+        <div><strong>Progresso:</strong> {carIndex + 1} / {selectedRoute.points.length}</div>
+      </section>
     </div>
   )
 }

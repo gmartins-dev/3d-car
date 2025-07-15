@@ -1,0 +1,26 @@
+/* Modern mobile-first layout and details card */
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.details-card {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 1.25rem 1rem;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: #222;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0.5rem;
+  }
+  .details-card {
+    font-size: 0.95rem;
+    padding: 1rem 0.5rem;
+  }
+}
