@@ -15,6 +15,12 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ carIndex, totalPoints,
   const remaining = Math.max(0, duration - elapsed);
   const min = Math.floor(remaining / 60);
   const sec = remaining % 60;
+  let friendlyTime = '';
+  if (min > 0) {
+    friendlyTime = `${min} ${t('min')} ${sec.toString().padStart(2, '0')} ${t('sec')}`;
+  } else {
+    friendlyTime = `${sec} ${t('sec')}`;
+  }
   const percent = ((carIndex + 1) / totalPoints) * 100;
 
   return (
@@ -33,7 +39,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ carIndex, totalPoints,
           </span>
         ) : (
           <span>
-            {t('remaining_time')}: {`${min}:${sec.toString().padStart(2, '0')}`}
+            {t('remaining_time')}: {friendlyTime}
           </span>
         )}
       </span>
