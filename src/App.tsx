@@ -4,7 +4,10 @@ import { useState, useEffect } from 'react'
 import { Map } from './components/Map'
 import { getRoutes } from './helpers/gpsData'
 import type { Route } from './helpers/gpsData'
-import { Button } from './components/ui/button'
+import { ProgressBar } from './components/ProgressBar'
+import { ActionButton } from './components/ActionButton'
+import { DetailsCard } from './components/DetailsCard'
+import { RouteSelect } from './components/RouteSelect'
 
 const routes = getRoutes()
 
@@ -30,76 +33,41 @@ function App() {
   }, [isPlaying, carIndex, selectedRoute])
 
 
-  // Dynamic action button logic
   const isAtEnd = carIndex >= selectedRoute.points.length - 1;
-  const isAtStart = carIndex === 0;
   const handleAction = () => {
     if (isAtEnd) {
       setCarIndex(0);
-      setIsPlaying(false);
-    } else if (isPlaying) {
       setIsPlaying(false);
     } else {
       setIsPlaying(true);
     }
   };
-  let actionLabel = '';
-  if (isAtEnd) actionLabel = 'Reiniciar';
-  else if (isPlaying) actionLabel = 'Parar';
-  else if (isAtStart) actionLabel = 'Começar';
-  else actionLabel = 'Continuar';
+  // Removido: lógica de actionLabel e ActionIcon, agora no ActionButton
 
 
 
   return (
     <div className="container">
       <h1 className="text-2xl font-bold mb-4">Car Tracker</h1>
-      <div className="mb-2">
-        <label htmlFor="route-select" className="font-semibold">Selecione a rota:</label>
-        <select
-          id="route-select"
-          value={selectedRoute.name}
-          onChange={e => {
-            const route = routes.find((r: Route) => r.name === e.target.value)
-            if (route) {
-              setSelectedRoute(route)
-              setCarIndex(0)
-              setIsPlaying(false)
-            }
-          }}
-          className="w-full p-2 border rounded mb-2"
-        >
-          {routes.map((route: Route) => (
-            <option key={route.name} value={route.name}>
-              {route.name} ({route.startName} → {route.endName})
-            </option>
-          ))}
-        </select>
-        <div className="text-sm text-gray-600 mb-2">
-          <strong>De:</strong> {selectedRoute.startName}<br />
-          <strong>Para:</strong> {selectedRoute.endName}
-        </div>
-      </div>
+      <RouteSelect
+        routes={routes}
+        selectedRoute={selectedRoute}
+        onChange={route => {
+          setSelectedRoute(route);
+          setCarIndex(0);
+          setIsPlaying(false);
+        }}
+      />
       <Map
         route={selectedRoute.points}
         position={selectedRoute.points[carIndex]}
         direction={selectedRoute.directions[carIndex]}
       />
+      <ProgressBar carIndex={carIndex} totalPoints={selectedRoute.points.length} duration={selectedRoute.duration} />
       <div className="flex justify-center my-4">
-        <Button size="lg" className="w-full max-w-xs" onClick={handleAction} variant={isPlaying ? 'destructive' : 'default'}>
-          {actionLabel}
-        </Button>
+        <ActionButton isAtEnd={isAtEnd} isPlaying={isPlaying} onClick={handleAction} />
       </div>
-      <section className="details-card">
-        <div><strong>De:</strong> {selectedRoute.startName}</div>
-        <div><strong>Para:</strong> {selectedRoute.endName}</div>
-        <div><strong>Duração:</strong> {selectedRoute.duration}s</div>
-        <div><strong>Distância:</strong> {(selectedRoute.distance / 1000).toFixed(2)} km</div>
-        <div><strong>Paradas:</strong> {selectedRoute.stops}</div>
-        <div><strong>Velocidade atual:</strong> {selectedRoute.speeds[carIndex]?.toFixed(1)} km/h</div>
-        <div><strong>Direção:</strong> {selectedRoute.directions[carIndex]?.toFixed(1)}°</div>
-        <div><strong>Progresso:</strong> {carIndex + 1} / {selectedRoute.points.length}</div>
-      </section>
+      <DetailsCard selectedRoute={selectedRoute} carIndex={carIndex} />
     </div>
   )
 }
