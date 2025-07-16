@@ -1,6 +1,3 @@
-
-
-
 import './App.css';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -53,45 +50,44 @@ function App() {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-    <div className="min-h-screen flex items-center justify-center bg-muted px-2 py-8">
-      <Card className="w-full max-w-xl shadow-lg rounded-xl p-6 relative text-slate-900 dark:text-slate-50">
-
-<div className="flex items-center justify-between mb-4">
-  <h1 className="text-3xl font-bold tracking-tight text-left flex-1 text-slate-900 dark:text-slate-50">{t('title')}</h1>
-  <div className="flex items-center gap-2 ml-4">
-    <LanguageSwitcher />
-    <ModeToggle/>
-  </div>
-</div>
-        <div>
-          <RouteSelect
-            routes={routes}
-            selectedRoute={selectedRoute}
-            onChange={(route: Route) => {
-              setSelectedRoute(route);
-              setCarIndex(0);
-              setIsPlaying(false);
-            }}
-          />
-        </div>
-        <div className="rounded-lg overflow-hidden shadow mb-4">
-          <Map
-            route={selectedRoute.points}
-            position={selectedRoute.points[carIndex]}
-            direction={selectedRoute.directions[carIndex]}
-          />
-        </div>
-        <div className="mt-[-36px] mb-[-16px]">
-          <ProgressBar carIndex={carIndex} totalPoints={selectedRoute.points.length} duration={selectedRoute.duration} />
-        </div>
-        <div className="flex justify-center">
-          <ActionButton isAtEnd={isAtEnd} isPlaying={isPlaying} onClick={handleAction} />
-        </div>
-        <CardContent className="p-0 mt-[-16px]">
-          <DetailsCard selectedRoute={selectedRoute} carIndex={carIndex} />
-        </CardContent>
-      </Card>
-    </div>
+      <div className="min-h-screen flex items-center justify-center bg-muted px-2 py-8">
+        <Card className="w-full max-w-xl shadow-lg rounded-xl p-6 relative text-slate-900 dark:text-slate-50">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-3xl font-bold tracking-tight text-left flex-1 text-slate-900 dark:text-slate-50">{t('title')}</h1>
+            <div className="flex items-center gap-2 ml-4">
+              <LanguageSwitcher />
+              <ModeToggle />
+            </div>
+          </div>
+          <div>
+            <RouteSelect
+              routes={routes}
+              selectedRoute={selectedRoute}
+              onChange={(route: Route) => {
+                setSelectedRoute(route);
+                setCarIndex(0);
+                setIsPlaying(false);
+              }}
+            />
+          </div>
+          <div className="rounded-lg overflow-hidden shadow mb-4">
+            <Map
+              route={selectedRoute.points}
+              position={selectedRoute.points[carIndex]}
+              direction={selectedRoute.directions[carIndex]}
+            />
+          </div>
+          <div className="mt-[-36px] mb-[-16px]">
+            <ProgressBar carIndex={carIndex} totalPoints={selectedRoute.points.length} duration={selectedRoute.duration} />
+          </div>
+          <div className="flex justify-center">
+            <ActionButton isAtEnd={isAtEnd} isPlaying={isPlaying} onClick={handleAction} />
+          </div>
+          <CardContent className="p-0 mt-[-16px]">
+            <DetailsCard selectedRoute={selectedRoute} carIndex={carIndex} />
+          </CardContent>
+        </Card>
+      </div>
     </ThemeProvider>
   );
 }
