@@ -51,6 +51,7 @@ A animação do veículo é controlada no componente `App.tsx` através de uma c
 
 O projeto foi organizado de forma modular para separar responsabilidades e facilitar a manutenção.
 
+```
 /src
 ├── api/
 │   └── frontend_data_gps.json   # Dados brutos de GPS
@@ -67,7 +68,7 @@ O projeto foi organizado de forma modular para separar responsabilidades e facil
 ├── helpers/
 │   └── gpsData.ts               # Lógica para processar os dados brutos de GPS
 ├── lib/
-│   └── utils.ts                 # Função utilitária `cn` do Shadcn para mesclar classes
+│   └── utils.ts                 # Função utilitária cn do Shadcn para mesclar classes
 ├── locales/
 │   ├── en/common.json           # Textos em Inglês
 │   ├── es/common.json           # Textos em Espanhol
@@ -75,6 +76,7 @@ O projeto foi organizado de forma modular para separar responsabilidades e facil
 ├── App.tsx                      # Componente principal que gerencia o estado da aplicação
 ├── i18n.ts                      # Configuração do i18next
 └── main.tsx                     # Ponto de entrada da aplicação
+```
 
 ### Detalhes dos Componentes Principais
 
@@ -114,7 +116,7 @@ Siga os passos abaixo para rodar a aplicação localmente:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone <url-do-seu-repositorio>
+    git clone https://github.com/gmartins-dev/3d-car
     cd 3d-car
     ```
 
