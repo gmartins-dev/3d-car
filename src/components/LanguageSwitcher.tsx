@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { GlobeIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ const languages = [
   { code: "es", label: "Español" },
 ];
 
-export function LanguageSwitcher() {
+export const LanguageSwitcher = memo(() => {
   const { i18n } = useTranslation();
 
   return (
@@ -37,4 +38,4 @@ export function LanguageSwitcher() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+});

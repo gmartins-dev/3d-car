@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Route } from '../helpers/gpsData';
 import {
@@ -19,7 +18,7 @@ interface RouteSelectProps {
   onChange: (route: Route) => void;
 }
 
-export const RouteSelect: React.FC<RouteSelectProps> = ({ routes, selectedRoute, onChange }) => {
+export const RouteSelect: React.FC<RouteSelectProps> = memo(({ routes, selectedRoute, onChange }) => {
   const { t } = useTranslation();
   return (
     <div className="mb-2 w-full">
@@ -51,4 +50,4 @@ export const RouteSelect: React.FC<RouteSelectProps> = ({ routes, selectedRoute,
       </div>
     </div>
   );
-};
+});
