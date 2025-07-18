@@ -37,15 +37,25 @@ Este projeto renderiza uma animação de um veículo em um mapa utilizando dados
 -   **Internacionalização:** Suporte para múltiplos idiomas (Português, Inglês e Espanhol).
 -   **Tema Dinâmico (Dark/Light Mode):** O usuário pode alternar entre o tema claro e escuro.
 
-## 🧠 Lógica Principal
+## 🏛️ Arquitetura e Decisões Técnicas
 
-A animação do veículo é controlada no componente `App.tsx` através de uma combinação dos hooks `useState` e `useEffect` do React.
+-   **Gerenciamento de Estado Simplificado:** O estado da aplicação é gerenciado localmente no componente `App.tsx` com o hook `useState`. Esta abordagem foi escolhida por sua simplicidade e adequação à complexidade atual do projeto.
 
--   **Estado:** O estado `carIndex` rastreia a posição atual do veículo no array de pontos GPS da rota selecionada. O estado `isPlaying` controla se a animação está ativa.
--   **Animação com `useEffect`:** Um `useEffect` é acionado sempre que `isPlaying` ou `carIndex` mudam.
-    -   Dentro do hook, a velocidade do veículo no ponto atual é recuperada (`selectedRoute.speeds[carIndex]`).
-    -   Um `setTimeout` é utilizado para agendar a próxima atualização de `carIndex`. O intervalo do timeout é dinâmico e calculado com base na velocidade do carro, fazendo com que o veículo se mova mais rápido no mapa quando os dados de GPS indicam uma velocidade maior.
-    -   Quando a animação termina (o carro chega ao último ponto), o loop é interrompido.
+-   **Lógica de Animação com Hook Customizado:** A lógica de animação foi abstraída para um hook customizado `useCarAnimation`. Isso limpa o componente `App.tsx`, tornando-o mais declarativo, e isola a lógica de animação para fácil manutenção e teste.
+
+-   **Otimização de Performance:** Componentes que não dependem do estado da animação (`RouteSelect`, `LanguageSwitcher`) foram otimizados com `React.memo` para prevenir re-renderizações desnecessárias, garantindo uma UI fluida.
+
+-   **Testes Automatizados:** O projeto inclui testes unitários com **Vitest** e **React Testing Library** para validar a lógica de processamento de dados (`helpers`), o comportamento da animação (`hooks`) e a renderização dos componentes de UI, assegurando a qualidade e a estabilidade do código.
+
+## 🧠 Lógica Principal da Animação
+
+A lógica de animação do veículo é o coração do projeto e está encapsulada no hook customizado `useCarAnimation`:
+
+-   **Estado Interno:** O hook gerencia os estados `carIndex` (a posição atual no array de pontos GPS) e `isPlaying` (se a animação está ativa).
+-   **Controle com `useEffect`:** Um `useEffect` é responsável por criar e destruir os timers da animação. Ele é reativado sempre que `isPlaying` ou `carIndex` mudam.
+    -   Dentro do hook, a velocidade do veículo no ponto atual é recuperada.
+    -   Um `setTimeout` é utilizado para agendar a próxima atualização de `carIndex`. O intervalo do timeout é **dinâmico e inversamente proporcional à velocidade do carro**, o que cria o efeito de aceleração e desaceleração na animação.
+    -   Quando a animação chega ao fim, o hook para de agendar novos timers.
 
 ## 🏗️ Estrutura do Projeto
 
@@ -67,12 +77,16 @@ O projeto foi organizado de forma modular para separar responsabilidades e facil
 │   └── ThemeProvider.tsx        # Provedor de contexto para o tema
 ├── helpers/
 │   └── gpsData.ts               # Lógica para processar os dados brutos de GPS
+├── hooks/
+│   └── useCarAnimation.ts       # Hook customizado com a lógica da animação
 ├── lib/
 │   └── utils.ts                 # Função utilitária cn do Shadcn para mesclar classes
 ├── locales/
 │   ├── en/common.json           # Textos em Inglês
 │   ├── es/common.json           # Textos em Espanhol
 │   └── pt/common.json           # Textos em Português
+├── test/
+│   └── setup.ts                 # Configuração global para os testes
 ├── App.tsx                      # Componente principal que gerencia o estado da aplicação
 ├── i18n.ts                      # Configuração do i18next
 └── main.tsx                     # Ponto de entrada da aplicação
@@ -95,6 +109,7 @@ A seleção de tecnologias visou criar uma aplicação moderna, performática e 
 -   **Tailwind CSS:** Um framework CSS utility-first para estilização rápida e consistente sem a necessidade de escrever CSS customizado. Ele é configurado com a v4, que oferece performance aprimorada.
 -   **Shadcn UI:** Uma coleção de componentes de UI reutilizáveis, construídos com Radix UI e Tailwind CSS. Foi utilizado para compor a interface de forma ágil com componentes acessíveis e customizáveis como `Card`, `Button` e `Select`.
 -   **Leaflet & React-Leaflet:** Bibliotecas escolhidas para a renderização dos mapas. Leaflet é uma solução leve e poderosa para mapas interativos, e `react-leaflet` fornece bindings para integrá-lo de forma declarativa em aplicações React.
+-   **Vitest & React Testing Library:** Para testes unitários e de componentes, garantindo a qualidade e a confiabilidade do código.
 -   **i18next & react-i18next:** Utilizadas para a implementação da internacionalização (i18n), permitindo que o texto da aplicação seja traduzido facilmente para múltiplos idiomas.
 -   **Lucide React:** Biblioteca de ícones escolhida por sua simplicidade, consistência e fácil customização.
 
@@ -116,7 +131,7 @@ Siga os passos abaixo para rodar a aplicação localmente:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/gmartins-dev/3d-car
+    git clone [https://github.com/gmartins-dev/3d-car](https://github.com/gmartins-dev/3d-car)
     cd 3d-car
     ```
 
@@ -131,11 +146,20 @@ Siga os passos abaixo para rodar a aplicação localmente:
     pnpm dev
     ```
 
-4.  Abra o seu navegador e acesse `http://localhost:5173` (ou a porta indicada no seu terminal).
+4.  **Execute os testes:**
+    ```bash
+    pnpm test
+    ```
+    Ou para a interface gráfica de testes:
+    ```bash
+    pnpm test:ui
+    ```
+
+5.  Abra o seu navegador e acesse `http://localhost:5173` (ou a porta indicada no seu terminal).
 
 ## 🔮 Melhorias Futuras
 
--   [ ] Adicionar testes unitários e de integração (ex: com Vitest e React Testing Library).
 -   [ ] Implementar um modo "seguir o carro" no mapa, onde o centro do mapa se ajusta automaticamente à posição do veículo durante a animação.
--   [ ] Adicionar mais visualizações de dados, como um gráfico de velocidade vs. tempo.
+-   [ ] Adicionar mais visualizações de dados, como um gráfico de velocidade vs. tempo, velocidade média etc...
 -   [ ] Permitir a seleção de diferentes ícones para o veículo.
+-   [ ] Otimizar a renderização de rotas muito longas.
