@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useCarAnimation } from './useCarAnimation';
-import { getRoutes } from '../helpers/gpsData';
+import { getRoutes, type Route } from '../helpers/gpsData';
 
 const mockRoute = getRoutes()[0];
 
@@ -53,7 +53,12 @@ describe('Hook: useCarAnimation', () => {
 
   it('should reset animation when handleAction is called at the end', () => {
     // Use a short, predictable route to simplify the test.
-    const shortRoute = { ...mockRoute, points: [[1, 1], [2, 2], [3, 3]], speeds: [10, 10, 10], directions: [0, 0, 0] };
+    const shortRoute: Route = {
+      ...mockRoute,
+      points: [[1, 1], [2, 2], [3, 3]],
+      speeds: [10, 10, 10],
+      directions: [0, 0, 0]
+    };
     const { result } = renderHook(() => useCarAnimation(shortRoute));
 
     // Start the animation
